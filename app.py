@@ -98,7 +98,7 @@ class Login(Resource):
         data = request.get_json()
         # check whether data is missing or if the username or 'password' are missing
         accountnumber = data.get('Accountnumber')
-        pin = data.get('Pin')
+        pin = data.get('password')
         if not(accountnumber and pin):
             return{
                 'message': 'Missing Accountnumber , pin'
