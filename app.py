@@ -16,9 +16,11 @@ import os
 app = Flask(__name__)
 
 
-
+#setuo flask jwt extended extension
 secret_key = secrets.token_hex(16)
 app.config['SECRET_KEY'] = secret_key
+jwt = JWTManager(app)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -111,7 +113,7 @@ class Login(Resource):
                 'message' : 'could Not Verify'
             } , 401
         
-    
+        access_token = create_access_token(identity=user.Accountno)
 
 
         return {
@@ -120,6 +122,7 @@ class Login(Resource):
             'Pin' : user.password ,
             'Firstname': user.Firstname,
             'Lastname': user.Lastname,
+            'access_token' : access_token ,
             'Accountbalance': user.accountbalance  # Return the account balance
         }, 201
     
